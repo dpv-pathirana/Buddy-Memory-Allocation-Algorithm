@@ -106,7 +106,7 @@ public class BuddySystem {
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
 
-        // Allocate 120 KB
+        // Allocate 500 KB
         Block block2 = buddySystem.allocate(500);
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
@@ -116,7 +116,7 @@ public class BuddySystem {
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
 
-        // Allocate 250 KB
+        // Allocate 110 KB
         Block block4 = buddySystem.allocate(110);
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
