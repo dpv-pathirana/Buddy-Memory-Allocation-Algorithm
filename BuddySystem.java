@@ -86,6 +86,7 @@ public class BuddySystem {
         return power;
     }
 
+    // Sort sizes of blocks in the freeBlocks list
     private void sortFreeBlocksBySize() {
         freeBlocks.sort((a, b) -> a.size - b.size);
     }
