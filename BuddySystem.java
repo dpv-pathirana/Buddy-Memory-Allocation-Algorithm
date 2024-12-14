@@ -11,7 +11,7 @@ public class BuddySystem {
         freeBlocks = new ArrayList<>();
         freeBlocks.add(new Block(0, totalMemory)); // Initially, one free block of total size
         System.out.println("Initial Memory Pool: " + totalMemory + " KB");
-        System.out.println("--------------------------------------------");
+        System.out.println("-----------------------------------------------------------");
     }
 
     // Method to allocate memory for a process
@@ -44,13 +44,12 @@ public class BuddySystem {
             }
             allocatedBlock = block;
             System.out.println("Allocated " + requiredSize + " KB at address " + block.start 
-                             + " | MP Request: " + size + " KB");
+                             + " | Process Request: " + size + " KB");
         }
     
         if (allocatedBlock == null) {
             System.out.println("Allocation failed: Not enough memory for " + size + " KB");
         }
-        System.out.println("--------------------------------------------");
         return allocatedBlock;
     }
 
@@ -94,11 +93,12 @@ public class BuddySystem {
 
     // Method to display the current memory state
     public void displayMemoryState() {
-        System.out.println("Current Free Memory Blocks:");
+        System.out.println(">>> Current Free Memory Blocks:");
         sortFreeBlocksBySize();
         for (Block block : freeBlocks) {
             System.out.println("Start: " + block.start + ", Size: " + block.size + " KB");
         }
+        System.out.println("-----------------------------------------------------------");
     }
 
     // Inner class to represent a memory block
@@ -114,54 +114,46 @@ public class BuddySystem {
 
     // Main method to test the buddy system implementation
     public static void main(String[] args) {
-        BuddySystem buddySystem = new BuddySystem(2048); // Initialize memory pool (1024 KB)
+        BuddySystem buddySystem = new BuddySystem(1024); // Initialize memory pool (1024 KB)
 
         // Allocate 60 KB
-        Block block1 = buddySystem.allocate(30);
+        Block block1 = buddySystem.allocate(60);
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Allocate 500 KB
-        Block block2 = buddySystem.allocate(260);
+        Block block2 = buddySystem.allocate(500);
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Allocate 225 KB
-        Block block3 = buddySystem.allocate(1000);
+        Block block3 = buddySystem.allocate(225);
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Allocate 110 KB
-        Block block4 = buddySystem.allocate(260);
+        Block block4 = buddySystem.allocate(110);
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Free 60 KB (corresponding to block1)
         if (block1 != null) {
             buddySystem.deallocate(block1);
         }
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Free 500 KB (corresponding to block2)
         if (block2 != null) {
             buddySystem.deallocate(block2);
         }
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Free 225 KB (corresponding to block2)
         if (block3 != null) {
             buddySystem.deallocate(block3);
         }
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
 
         // Free 110 KB (corresponding to block2)
         if (block3 != null) {
             buddySystem.deallocate(block4);
         }
         buddySystem.displayMemoryState();
-        System.out.println("--------------------------------------------");
     }
 }
