@@ -18,29 +18,39 @@ public class BuddySystem {
     public Block allocate(int size) {
         int requiredSize = nextPowerOfTwo(size); // Find smallest power of 2 greater than size
         Block allocatedBlock = null;
-
+        int bestFitIndex = -1;
+        int bestFitSize = Integer.MAX_VALUE;
+    
+        // Find the smallest block that can accommodate the request
         for (int i = 0; i < freeBlocks.size(); i++) {
             Block block = freeBlocks.get(i);
-
-            if (block.size >= requiredSize) {
-                freeBlocks.remove(i); // Remove the block from free list
-                // Split blocks until the required size is reached
-                while (block.size > requiredSize) {
-                    int halfSize = block.size / 2;
-                    Block buddy = new Block(block.start + halfSize, halfSize); // Create buddy block
-                    block.size = halfSize; // Reduce the size of the current block
-                    freeBlocks.add(buddy); // Add buddy block to free list
-                }
-                allocatedBlock = block;
-                System.out.println("Allocated " + requiredSize + " KB at address " + block.start + " | MP Request: " + size + " KB");
-                break;
+            if (block.size >= requiredSize && block.size < bestFitSize) {
+                bestFitSize = block.size;
+                bestFitIndex = i;
             }
         }
-
+    
+        // If a suitable block was found
+        if (bestFitIndex != -1) {
+            Block block = freeBlocks.get(bestFitIndex);
+            freeBlocks.remove(bestFitIndex); // Remove the block from free list
+            
+            // Split blocks until the required size is reached
+            while (block.size > requiredSize) {
+                int halfSize = block.size / 2;
+                Block buddy = new Block(block.start + halfSize, halfSize); // Create buddy block
+                block.size = halfSize; // Reduce the size of the current block
+                freeBlocks.add(buddy); // Add buddy block to free list
+            }
+            allocatedBlock = block;
+            System.out.println("Allocated " + requiredSize + " KB at address " + block.start 
+                             + " | MP Request: " + size + " KB");
+        }
+    
         if (allocatedBlock == null) {
             System.out.println("Allocation failed: Not enough memory for " + size + " KB");
-            System.out.println("--------------------------------------------");
         }
+        System.out.println("--------------------------------------------");
         return allocatedBlock;
     }
 
@@ -99,25 +109,25 @@ public class BuddySystem {
 
     // Main method to test the buddy system implementation
     public static void main(String[] args) {
-        BuddySystem buddySystem = new BuddySystem(1024); // Initialize memory pool (1024 KB)
+        BuddySystem buddySystem = new BuddySystem(2048); // Initialize memory pool (1024 KB)
 
         // Allocate 60 KB
-        Block block1 = buddySystem.allocate(60);
+        Block block1 = buddySystem.allocate(30);
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
 
         // Allocate 500 KB
-        Block block2 = buddySystem.allocate(500);
+        Block block2 = buddySystem.allocate(260);
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
 
         // Allocate 225 KB
-        Block block3 = buddySystem.allocate(225);
+        Block block3 = buddySystem.allocate(1000);
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
 
         // Allocate 110 KB
-        Block block4 = buddySystem.allocate(110);
+        Block block4 = buddySystem.allocate(260);
         buddySystem.displayMemoryState();
         System.out.println("--------------------------------------------");
 
