@@ -88,9 +88,14 @@ public class BuddySystem {
         return power;
     }
 
+    private void sortFreeBlocksBySize() {
+        freeBlocks.sort((a, b) -> a.size - b.size);
+    }
+
     // Method to display the current memory state
     public void displayMemoryState() {
         System.out.println("Current Free Memory Blocks:");
+        sortFreeBlocksBySize();
         for (Block block : freeBlocks) {
             System.out.println("Start: " + block.start + ", Size: " + block.size + " KB");
         }
