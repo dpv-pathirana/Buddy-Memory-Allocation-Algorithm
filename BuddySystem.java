@@ -43,8 +43,7 @@ public class BuddySystem {
                 freeBlocks.add(buddy); // Add buddy block to free list
             }
             allocatedBlock = block;
-            System.out.println("Allocated " + requiredSize + " KB at address " + block.start 
-                             + " | Process Request: " + size + " KB");
+            System.out.println("Allocated " + requiredSize + " KB at address " + block.start + " | Process Request: " + size + " KB");
         }
     
         if (allocatedBlock == null) {
